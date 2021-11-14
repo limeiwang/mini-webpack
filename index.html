@@ -1,0 +1,42 @@
+<script>
+    
+    // 1.
+    // function require(file) {
+    //     var exports = {};
+    //     (function(exports, code) {
+    //         eval(code);
+    //     })(exports, 'exports.default = function(a, b) { return a+b}')
+    //     return exports;
+    // }
+    // var add = require('./add.js').default;
+    // console.log(add(3,2));
+
+    // 2.
+    // const list = {
+    //     'index.js': `
+    //     var add = require('./add.js').default;
+    //     console.log(add(3,2));
+    //     `,
+    //     'app.js': 'exports.default = function(a, b) { return a+b}',
+    // }
+
+    // 3.
+    (function (list) {
+        function require(file) {
+            var exports = {};
+            (function(exports, code) {
+                eval(code);
+            })(exports, list[file])
+            return exports;
+        }
+        // var add = require('./add.js').default;
+        require('index.js');
+    })({
+        'index.js': `
+        var add = require('add.js').default;
+        console.log(add(3,9), 888);
+        `,
+        'add.js': 'exports.default = function(a, b) { return a+b}',
+    })
+    
+</script>
